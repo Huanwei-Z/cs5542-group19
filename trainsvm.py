@@ -5,8 +5,7 @@ import numpy as np
 from imutils import paths
 from keras.preprocessing.image import img_to_array
 
-from sklearn.model_selection import cross_val_score #导入SVM分类算法库 
-from sklearn import svm #导入图表库 
+from sklearn import svm
 from sklearn.decomposition import PCA
 
 
@@ -15,10 +14,10 @@ width=250
 classes = 67
 epochs=1
 batch_size=3
-save_path='model/classify.model'
+save_path='model/0/'
 
 
-#得到图像数据，图像尺寸统一
+#Get the image data, the image size is uniform
 def getimage(path):
     lst_img = []
     lst_label = []
@@ -84,7 +83,8 @@ def getimage2(path):
     np_label = np.array(lst_label)
     return np_img, np_label, lst_path
 
-#训练模型
+
+#Training model
 def train_model(train_path, test_path):
     model = svm.SVC(gamma='auto')
     train_img, train_label = getimage(train_path)
@@ -103,12 +103,12 @@ def train_model(train_path, test_path):
     
     file=open('result/svmresult.txt', 'w')
     for i in range(len(y_pred)):
-        file.write(('图片%s'%lst_path[i])+('识别为%d牛'%y_pred[i])+'\n')
-    file.write('准确率：'+str(int(score * 100))+'%')
+        file.write(('graph%s'%lst_path[i])+('recognized as cow No.%d'%y_pred[i])+'\n')
+    file.write('Accuracy:'+str(int(score * 100))+'%')
     file.close()
     
-    print("训练完毕 模型评分 %s" % score)
-    print('模型的准确率: ' + str(int(score * 100))+'%')
+    print("Training completed,the model score is %s" % score)
+    print('Training prediction results: ' + str(int(score * 100))+'%')
 
 if __name__ == '__main__':
     train = "./data/train/"
